@@ -47,12 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
         alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        schedule(12, 30, 0, new StartRelaxMusic(app.musicPlayer));
+        schedule(12, 30, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
         schedule(13, 0, 0, new StopRelaxMusic(app.musicPlayer));
+
         schedule(14, 10, 0, new WakeUpMusic(app.musicPlayer));
         schedule(14, 10, 10, new WakeUpDeveloper(app.smartBot, app.musicPlayer));
         schedule(14, 30, 0, new DailyReport(app.smartBot, app.musicPlayer));
         schedule(14, 45, 0, new DailyReportTip(app.smartBot, app.musicPlayer));
+
+        schedule(18, 5, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
+        schedule(18, 30, 0, new StopRelaxMusic(app.musicPlayer));
     }
 
     private void schedule(int h, int m, int s, BaseSchedule schedule) {

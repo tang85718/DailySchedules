@@ -46,7 +46,7 @@ public class SmartBot implements SpeechSynthesizerListener {
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_DEFAULT);
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_VOLUME, "9");
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "4");
-        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_PITCH, "3");
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_PITCH, "1");
 
         // 获取语音合成授权信息
         AuthInfo authInfo = mSpeechSynthesizer.auth(TtsMode.MIX);
