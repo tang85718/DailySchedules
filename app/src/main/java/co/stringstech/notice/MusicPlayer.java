@@ -93,7 +93,6 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
             Safeguard();
             player = new MediaPlayer();
             player.setOnCompletionListener(this);
-            player.setScreenOnWhilePlaying(true);
             player.setDataSource(path);
             player.prepare();
             player.start();

@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Locale;
 import java.util.Calendar;
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         /*
            TODO: 11:15清醒大家点餐
-           TODO: 站会时制定首位发言者
          */
 
         schedule(12, 30, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
@@ -91,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick({R.id.button, R.id.button2, R.id.daily_report_tip, R.id.start_music, R.id.stop_music})
     public void onTouchButton(View v) {
         App app = (App) getApplication();
-        Timber.d("onTouchButton:%d", v.getId());
         switch (v.getId()) {
             case R.id.button: {
                 WakeUpDeveloper s = new WakeUpDeveloper(app.smartBot, app.musicPlayer);
@@ -121,15 +117,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageEvent event) {
-        App app = (App) getApplication();
-
-        try {
-            BaseSchedule schedule = app.schedules.get(event.name);
-            schedule.execute();
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onMessageEvent(MessageEvent event) {
+//        App app = (App) getApplication();
+//
+//        try {
+//            BaseSchedule schedule = app.schedules.get(event.name);
+//            schedule.execute();
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
+//    }
 }
