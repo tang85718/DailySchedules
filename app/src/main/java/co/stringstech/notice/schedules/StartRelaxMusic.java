@@ -22,7 +22,7 @@ public class StartRelaxMusic implements BaseSchedule {
     @Override
     public void execute() {
         String text = String.format(Locale.getDefault(),
-                "大家好，我是%s，大家工作辛苦了，现在是休息时间，播放几个小曲轻松一下。喵～",
+                "大家好，我是%s，大家工作辛苦了，现在是休息时间，播放几个小曲放松心情。喵～",
                 smartBot.getName()
         );
 

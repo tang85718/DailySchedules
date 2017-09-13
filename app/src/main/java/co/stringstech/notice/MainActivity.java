@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
         alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        /*
+           TODO: 11:15清醒大家点餐
+           TODO: 站会时制定首位发言者
+         */
+
         schedule(12, 30, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
         schedule(13, 0, 0, new StopRelaxMusic(app.musicPlayer));
 
