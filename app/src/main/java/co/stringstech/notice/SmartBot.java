@@ -61,7 +61,7 @@ public class SmartBot implements SpeechSynthesizerListener {
     }
 
     public String getName() {
-        return "爱丽丝";
+        return "Alice";
     }
 
     public void speak(String text, ISpeak is) {

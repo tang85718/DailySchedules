@@ -1,7 +1,7 @@
 package co.stringstech.notice;
 
-import android.content.Context;
 import android.media.MediaPlayer;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,10 +26,21 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
 
     private void buildPlaylist() {
         lists.clear();
-        File[] files = new File("/storage/sdcard0/KuwoMusic/music").listFiles();
+
+        String path = Environment.getExternalStorageDirectory().getPath();
+        Timber.i("SD:%s", path);
+
+        File[] files = new File(path, "/KuwoMusic/music").listFiles();
         for (File f : files) {
             String absolutePath = f.getAbsolutePath();
-            Timber.d("music: %s", absolutePath);
+            Timber.d("KuWo: %s", absolutePath);
+            lists.add(absolutePath);
+        }
+
+        files = new File(path, "/xiami/audios").listFiles();
+        for (File f : files) {
+            String absolutePath = f.getAbsolutePath();
+            Timber.d("XiaMi: %s", absolutePath);
             lists.add(absolutePath);
         }
     }
@@ -67,10 +78,6 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
     }
 
     private void play() {
-        if (player != null && player.isPlaying()) {
-            return;
-        }
-
         if (lists.isEmpty()) {
             return;
         }
@@ -80,6 +87,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         String path = lists.get(rand);
 
         lists.remove(rand);
+        Timber.i("当前播放歌曲：%s", path);
 
         try {
             Safeguard();

@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         Timber.i("name %d, %d, %s", h, m, name);
     }
 
-    @OnClick({R.id.button, R.id.button2, R.id.daily_report_tip})
+    @OnClick({R.id.button, R.id.button2, R.id.daily_report_tip, R.id.start_music, R.id.stop_music})
     public void onTouchButton(View v) {
         App app = (App) getApplication();
         Timber.d("onTouchButton:%d", v.getId());
@@ -101,6 +101,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.daily_report_tip: {
                 DailyReportTip dailyReport = new DailyReportTip(app.smartBot, app.musicPlayer);
                 dailyReport.execute();
+                break;
+            }
+            case R.id.start_music: {
+                StartRelaxMusic s = new StartRelaxMusic(app.smartBot, app.musicPlayer);
+                s.execute();
+                break;
+            }
+            case R.id.stop_music: {
+                StopRelaxMusic s = new StopRelaxMusic(app.musicPlayer);
+                s.execute();
                 break;
             }
         }
