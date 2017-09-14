@@ -94,6 +94,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
             player = new MediaPlayer();
             player.setOnCompletionListener(this);
             player.setDataSource(path);
+            player.setVolume(1f, 1f);
             player.prepare();
             player.start();
         } catch (IOException e) {

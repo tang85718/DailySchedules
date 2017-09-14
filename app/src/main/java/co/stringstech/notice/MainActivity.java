@@ -9,13 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.Locale;
 import java.util.Calendar;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import co.stringstech.notice.schedules.BaseSchedule;
 import co.stringstech.notice.schedules.DailyReport;
 import co.stringstech.notice.schedules.DailyReportTip;
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         Timber.plant(new Timber.DebugTree());
         Timber.d("onCreate");
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -48,9 +46,8 @@ public class MainActivity extends AppCompatActivity {
         /*
            TODO: 11:15清醒大家点餐
          */
-
-        schedule(12, 30, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
-        schedule(13, 0, 0, new StopRelaxMusic(app.musicPlayer));
+        schedule(12, 31, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
+        schedule(12, 55, 0, new StopRelaxMusic(app.musicPlayer));
 
         schedule(14, 10, 0, new WakeUpMusic(app.musicPlayer));
         schedule(14, 10, 10, new WakeUpDeveloper(app.smartBot, app.musicPlayer));
@@ -58,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         schedule(14, 45, 0, new DailyReportTip(app.smartBot, app.musicPlayer));
 
         schedule(18, 5, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
-        schedule(18, 30, 0, new StopRelaxMusic(app.musicPlayer));
+        schedule(18, 55, 0, new StopRelaxMusic(app.musicPlayer));
     }
 
     private void schedule(int h, int m, int s, BaseSchedule schedule) {
@@ -85,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         Timber.i("name %d, %d, %s", h, m, name);
     }
 
-    @OnClick({R.id.button, R.id.button2, R.id.daily_report_tip, R.id.start_music, R.id.stop_music})
+    @OnLongClick({R.id.button, R.id.button2, R.id.daily_report_tip, R.id.start_music, R.id.stop_music})
     public void onTouchButton(View v) {
         App app = (App) getApplication();
         switch (v.getId()) {
