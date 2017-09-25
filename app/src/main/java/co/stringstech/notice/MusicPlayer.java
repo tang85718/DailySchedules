@@ -1,5 +1,6 @@
 package co.stringstech.notice;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Environment;
 
@@ -71,7 +72,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         }
     }
 
-    public void resume() {
+    public void unduck() {
         if (player != null) {
             player.setVolume(1f, 1f);
         }

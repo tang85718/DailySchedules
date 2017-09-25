@@ -43,6 +43,6 @@ public class DailyReport implements BaseSchedule {
                 "站会，站会，站会，重要的事情说三遍, 请%s第一个发言，喵～", developer);
 
         musicPlayer.duck();
-        smartBot.speak(text, () -> musicPlayer.resume());
+        smartBot.speak(text, () -> musicPlayer.unduck());
     }
 }

@@ -21,6 +21,6 @@ public class DailyReportTip implements BaseSchedule {
     @Override
     public void execute() {
         musicPlayer.duck();
-        smartBot.speak("开发的大大，请写日报，日报，日报，喵～", () -> musicPlayer.resume());
+        smartBot.speak("开发的大大，请记得写日报，日报，日报，喵～", () -> musicPlayer.unduck());
     }
 }

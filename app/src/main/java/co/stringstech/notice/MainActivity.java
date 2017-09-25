@@ -1,9 +1,9 @@
 package co.stringstech.notice;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
+
 import android.content.Context;
-import android.content.Intent;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,9 +11,10 @@ import android.view.WindowManager;
 
 import java.util.Locale;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnLongClick;
 import co.stringstech.notice.schedules.BaseSchedule;
 import co.stringstech.notice.schedules.DailyReport;
@@ -26,7 +27,7 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AlarmManager alarm;
+    private Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        initVolume();
+
         App app = (App) getApplication();
         app.smartBot = new SmartBot(this);
-
-        alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//        alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         /*
            TODO: 11:15清醒大家点餐
@@ -49,13 +51,19 @@ public class MainActivity extends AppCompatActivity {
         schedule(12, 31, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
         schedule(12, 55, 0, new StopRelaxMusic(app.musicPlayer));
 
-        schedule(14, 10, 0, new WakeUpMusic(app.musicPlayer));
-        schedule(14, 10, 10, new WakeUpDeveloper(app.smartBot, app.musicPlayer));
+        schedule(14, 5, 0, new WakeUpMusic(app.musicPlayer));
+        schedule(14, 5, 10, new WakeUpDeveloper(app.smartBot, app.musicPlayer));
         schedule(14, 30, 0, new DailyReport(app.smartBot, app.musicPlayer));
         schedule(14, 45, 0, new DailyReportTip(app.smartBot, app.musicPlayer));
 
-        schedule(18, 5, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
-        schedule(18, 55, 0, new StopRelaxMusic(app.musicPlayer));
+        schedule(18, 10, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer));
+        schedule(19, 0, 0, new StopRelaxMusic(app.musicPlayer));
+    }
+
+    private void initVolume() {
+        AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int max = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        manager.setStreamVolume(AudioManager.STREAM_MUSIC, max, AudioManager.FLAG_PLAY_SOUND);
     }
 
     private void schedule(int h, int m, int s, BaseSchedule schedule) {
@@ -67,23 +75,31 @@ public class MainActivity extends AppCompatActivity {
 
         App app = (App) getApplication();
         String name = schedule.getClass().getSimpleName();
-
         app.schedules.put(name, schedule);
 
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.setAction(name);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                schedule.execute();
+                Timber.i("execute: %s", schedule.getClass().getSimpleName());
+            }
+        }, calendar.getTime(), AlarmManager.INTERVAL_DAY);
 
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                alarmIntent
-        );
-        Timber.i("name %d, %d, %s", h, m, name);
+        Timber.i("create schedule: %d, %d, %s", h, m, name);
+
+        //        Intent intent = new Intent(this, AlarmReceiver.class);
+//        intent.setAction(name);
+//
+//        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+//        alarm.setRepeating(AlarmManager.RTC_WAKEUP,
+//                calendar.getTimeInMillis(),
+//                AlarmManager.INTERVAL_DAY,
+//                alarmIntent
+//        );
     }
 
     @OnLongClick({R.id.button, R.id.button2, R.id.daily_report_tip, R.id.start_music, R.id.stop_music})
-    public void onTouchButton(View v) {
+    public boolean onTouchButton(View v) {
         App app = (App) getApplication();
         switch (v.getId()) {
             case R.id.button: {
@@ -112,17 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+        return false;
     }
-
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onMessageEvent(MessageEvent event) {
-//        App app = (App) getApplication();
-//
-//        try {
-//            BaseSchedule schedule = app.schedules.get(event.name);
-//            schedule.execute();
-//        } catch (Exception e) {
-//            Timber.e(e);
-//        }
-//    }
 }

@@ -11,8 +11,8 @@ import co.stringstech.notice.MusicPlayer;
  */
 
 public class WakeUpDeveloper implements BaseSchedule {
-    SmartBot smartBot;
-    MusicPlayer musicPlayer;
+    private SmartBot smartBot;
+    private MusicPlayer musicPlayer;
 
     public WakeUpDeveloper(SmartBot smartBot, MusicPlayer musicPlayer) {
         this.smartBot = smartBot;
@@ -22,10 +22,10 @@ public class WakeUpDeveloper implements BaseSchedule {
     @Override
     public void execute() {
         musicPlayer.duck();
-        String text = String.format(Locale.getDefault(),
-                "大家好，我是%s，工作辛苦了，请大家准备2点半的站会, 记得站会时不要害羞.喵～",
-                smartBot.getName()
-        );
-        smartBot.speak(text, () -> musicPlayer.resume());
+//        String text = String.format(Locale.getDefault(),
+//                "大家好，请开发组准备2点半的站会, 记得站会时不要害羞.",
+//                smartBot.getName()
+//        );
+        smartBot.speak("大家好，请开发组准备2点半的站会, 记得站会时不要害羞.", () -> musicPlayer.unduck());
     }
 }

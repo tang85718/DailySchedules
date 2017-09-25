@@ -14,8 +14,10 @@ import co.stringstech.notice.schedules.BaseSchedule;
 public class App extends Application {
 
     public MusicPlayer musicPlayer = new MusicPlayer();
-    public HashMap<String, BaseSchedule> schedules = new HashMap<>();
     public SmartBot smartBot;
+    public HashMap<String, BaseSchedule> schedules = new HashMap<>();
+//    public LongSparseArray<BaseSchedule> schedules = new LongSparseArray<>();
+
 
     @Override
     public void onCreate() {
