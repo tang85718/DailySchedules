@@ -11,7 +11,7 @@ import co.stringstech.notice.SmartBot;
  * Created by tangxuyao on 2017/9/12.
  * DailyReport for
  */
-
+111
 public class DailyReport implements BaseSchedule {
 
     private SmartBot smartBot;
