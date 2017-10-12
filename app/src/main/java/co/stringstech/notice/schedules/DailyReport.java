@@ -12,7 +12,7 @@ import co.stringstech.notice.SmartBot;
  * DailyReport for
  */
 
-public class DailyReport implements BaseSchedule {
+public class DailyReport extends BaseSchedule {
 
     private SmartBot smartBot;
     private MusicPlayer musicPlayer;
@@ -23,7 +23,7 @@ public class DailyReport implements BaseSchedule {
     }
 
     @Override
-    public void execute() {
+    public void executeNow() {
         ArrayList<String> developers = new ArrayList<>();
         developers.add("袁超");
         developers.add("彭智耿");

@@ -8,7 +8,7 @@ import co.stringstech.notice.SmartBot;
  * DailyReportTip
  */
 
-public class DailyReportTip implements BaseSchedule {
+public class DailyReportTip extends BaseSchedule {
 
     private SmartBot smartBot;
     private MusicPlayer musicPlayer;
@@ -19,7 +19,7 @@ public class DailyReportTip implements BaseSchedule {
     }
 
     @Override
-    public void execute() {
+    public void executeNow() {
         musicPlayer.duck();
         smartBot.speak("开发的大大，请记得写日报，日报，日报，喵～", () -> musicPlayer.unduck());
     }

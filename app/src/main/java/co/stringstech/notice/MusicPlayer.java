@@ -1,14 +1,14 @@
 package co.stringstech.notice;
 
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Environment;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
 
+import co.stringstech.notice.realm.Pending;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
@@ -18,47 +18,59 @@ import timber.log.Timber;
 
 public class MusicPlayer implements MediaPlayer.OnCompletionListener {
 
-    private ArrayList<String> lists = new ArrayList<>();
+    private App app;
     private MediaPlayer player;
-    private boolean auto = true;
+    private boolean isLooping = true;
+    private boolean isStopped = false;
+    private int maxRetryCount = 5;
 
-    public MusicPlayer() {
-    }
-
-    private void buildPlaylist() {
-        lists.clear();
-
-        String path = Environment.getExternalStorageDirectory().getPath();
-        Timber.i("SD:%s", path);
-
-        File[] files = new File(path, "/KuwoMusic/music").listFiles();
-        for (File f : files) {
-            String absolutePath = f.getAbsolutePath();
-            Timber.d("KuWo: %s", absolutePath);
-            lists.add(absolutePath);
-        }
-
-        files = new File(path, "/xiami/audios").listFiles();
-        for (File f : files) {
-            String absolutePath = f.getAbsolutePath();
-            Timber.d("XiaMi: %s", absolutePath);
-            lists.add(absolutePath);
-        }
+    public MusicPlayer(App app) {
+        this.app = app;
     }
 
     public void playOne() {
-        buildPlaylist();
-        auto = false;
-        play();
+        isLooping = false;
+        play(getRandomSong());
     }
 
     public void playRandom() {
-        buildPlaylist();
-        auto = true;
-        play();
+        isLooping = true;
+        isStopped = false;
+        play(getRandomSong());
+    }
+
+    private String getRandomSong() {
+        Realm realm = app.getRealm();
+        RealmQuery<Pending> query = realm.where(Pending.class);
+        RealmResults<Pending> results = query.findAll();
+
+        if (results.isEmpty()) {
+            if (maxRetryCount-- <= 0) {
+                return "";
+            }
+
+            app.builder.build();
+            return getRandomSong();
+        }
+
+        Random random = new Random();
+        int rand = random.nextInt(results.size());
+        Pending song = results.get(rand);
+        String path = song.getPath();
+
+        realm.beginTransaction();
+        results.deleteFromRealm(rand);
+        realm.commitTransaction();
+
+        realm.close();
+        return path;
     }
 
     public void stop() {
+        isStopped = true;
+    }
+
+    public void stopForce() {
         if (player != null) {
             player.stop();
             player.release();
@@ -78,16 +90,7 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
         }
     }
 
-    private void play() {
-        if (lists.isEmpty()) {
-            return;
-        }
-
-        Random random = new Random();
-        int rand = random.nextInt(lists.size());
-        String path = lists.get(rand);
-
-        lists.remove(rand);
+    private void play(String path) {
         Timber.i("当前播放歌曲：%s", path);
 
         try {
@@ -117,8 +120,15 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if (auto) {
-            play();
+        if (isStopped) {
+            stopForce();
+            return ;
+        }
+
+        if (isLooping) {
+            play(getRandomSong());
+        } else {
+            stopForce();
         }
     }
 }

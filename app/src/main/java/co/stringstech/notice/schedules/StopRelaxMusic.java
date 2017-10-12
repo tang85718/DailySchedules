@@ -8,7 +8,7 @@ import timber.log.Timber;
  * StopRelaxMusic
  */
 
-public class StopRelaxMusic implements BaseSchedule {
+public class StopRelaxMusic extends BaseSchedule {
     private MusicPlayer musicPlayer;
 
     public StopRelaxMusic(MusicPlayer musicPlayer) {
@@ -16,7 +16,7 @@ public class StopRelaxMusic implements BaseSchedule {
     }
 
     @Override
-    public void execute() {
+    public void executeNow() {
         musicPlayer.stop();
         Timber.i("StopRelaxMusic");
     }
