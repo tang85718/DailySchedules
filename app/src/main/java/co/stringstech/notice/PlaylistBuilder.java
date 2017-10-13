@@ -27,8 +27,6 @@ public class PlaylistBuilder {
     public void build() {
         Realm realm = app.getRealm();
 
-        Toast.makeText(app, "正在构建播放列表...", Toast.LENGTH_LONG).show();
-
         RealmQuery<Pending> query = realm.where(Pending.class);
         RealmResults<Pending> results = query.findAll();
         if (!results.isEmpty()) {

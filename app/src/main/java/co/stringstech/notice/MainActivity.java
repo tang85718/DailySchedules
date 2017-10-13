@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         builder.executeNow();
 
         app.schedule(23, 0, 0, builder, true);
+
+        app.builder.build();
 //        app.schedule(12, 31, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer, app.builder));
 //        app.schedule(12, 55, 0, new StopRelaxMusic(app.musicPlayer));
 //
