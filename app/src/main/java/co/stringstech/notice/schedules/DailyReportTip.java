@@ -21,6 +21,6 @@ public class DailyReportTip extends BaseSchedule {
     @Override
     public void executeNow() {
         musicPlayer.duck();
-        smartBot.speak("久坐对颈椎不利，请大家停下忙碌休息10分钟，离开座位走动一会换换思路，之后，请花5分钟时间认真编写今天的日志", () -> musicPlayer.unduck());
+        smartBot.speak("久坐对颈椎不利，请大家停下忙碌，休息10分钟，离开座位，走动一会，换换思路，之后，请花5分钟时间认真编写今天的日志", () -> musicPlayer.unduck());
     }
 }

@@ -8,21 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import java.util.Locale;
-import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
-import co.stringstech.notice.schedules.BaseSchedule;
 import co.stringstech.notice.schedules.DailyReport;
 import co.stringstech.notice.schedules.DailyReportTip;
 import co.stringstech.notice.schedules.SchedulesBuilder;
 import co.stringstech.notice.schedules.StartRelaxMusic;
 import co.stringstech.notice.schedules.StopRelaxMusic;
 import co.stringstech.notice.schedules.WakeUpDeveloper;
-import co.stringstech.notice.schedules.WakeUpMusic;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {

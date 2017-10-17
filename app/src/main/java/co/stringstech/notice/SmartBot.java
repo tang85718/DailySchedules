@@ -97,7 +97,7 @@ public class SmartBot implements SpeechSynthesizerListener {
         // 判断授权信息是否正确，如果正确则初始化语音合成器并开始语音合成，如果失败则做错误处理
         if (authInfo.isSuccess()) {
             mSpeechSynthesizer.initTts(TtsMode.MIX);
-            Timber.i("初始化完成");
+            Timber.i("语音合成模块: 初始化成功");
             return true;
         }
 
@@ -105,7 +105,7 @@ public class SmartBot implements SpeechSynthesizerListener {
         // 授权失败
         mSpeechSynthesizer.release();
         mSpeechSynthesizer = null;
-        Timber.e("初始化失败:%s", errorMsg);
+        Timber.e("语音合成模块: 初始化失败-%s", errorMsg);
         return false;
     }
 
@@ -195,6 +195,6 @@ public class SmartBot implements SpeechSynthesizerListener {
 
     @Override
     public void onError(String s, SpeechError speechError) {
-        Timber.e(s);
+        Timber.e("%d, %s", speechError.code, speechError.description);
     }
 }

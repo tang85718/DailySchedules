@@ -33,7 +33,7 @@ public class DailyReport extends BaseSchedule {
 
         ArrayList<String> developers = new ArrayList<>();
         developers.add("袁超");
-        developers.add("彭智耿");
+//        developers.add("彭智耿");
         developers.add("杨裕安");
         developers.add("刘阳");
         developers.add("黄磊");
@@ -52,7 +52,7 @@ public class DailyReport extends BaseSchedule {
 //        String admin = admins.get(dayOfYear % admins.size());
 
         String text = String.format(Locale.getDefault(),
-                "开始站会, 请%s第一个发言，发言时请提高声量. biu", developer);
+                "开始站会, 请%s第一个发言 喵～", developer);
 
         musicPlayer.duck();
         smartBot.speak(text, () -> musicPlayer.unduck());

@@ -50,7 +50,7 @@ public class WakeUpDeveloper extends BaseSchedule {
         String text = seg.get(index);
 
         Timber.d("WakeUpDeveloper:%d, %d, %d, %s", days, index, seg.size(), text);
-
-        smartBot.speak(String.format(Locale.getDefault(), "休息好了, 清醒大脑开始工作哟～, 伟大的%s", text), () -> musicPlayer.unduck());
+        smartBot.speak("温馨 提示，请开发组准备2点半的站会.", () -> musicPlayer.unduck());
+//        smartBot.speak(String.format(Locale.getDefault(), "休息好了, 清醒大脑开始工作哟～, 伟大的%s", text), () -> musicPlayer.unduck());
     }
 }
