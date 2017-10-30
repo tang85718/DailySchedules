@@ -1,12 +1,9 @@
 package co.stringstech.notice.schedules;
 
-import android.os.Looper;
-
 import java.util.Locale;
 
-import co.stringstech.notice.MusicPlayer;
-import co.stringstech.notice.PlaylistBuilder;
-import co.stringstech.notice.SmartBot;
+import co.stringstech.notice.App;
+
 
 /**
  * Created by tangxuyao on 2017/9/12.
@@ -14,24 +11,20 @@ import co.stringstech.notice.SmartBot;
  */
 
 public class StartRelaxMusic extends BaseSchedule {
-    private MusicPlayer musicPlayer;
-    private SmartBot smartBot;
-    private PlaylistBuilder builder;
+    private App app;
 
-    public StartRelaxMusic(SmartBot sb, MusicPlayer rt, PlaylistBuilder builder) {
-        this.musicPlayer = rt;
-        this.smartBot = sb;
-        this.builder = builder;
+    public StartRelaxMusic(App app) {
+        this.app = app;
     }
 
     @Override
     public void executeNow() {
-        builder.build();
+        app.builder.build();
         String text = String.format(Locale.getDefault(),
                 "大家好，我是%s，大家工作辛苦了，现在是休息时间，播放几个小曲放松心情。喵～",
-                smartBot.getName()
+                app.broadcaster.getName()
         );
 
-        smartBot.speak(text, () -> musicPlayer.playRandom());
+        app.broadcaster.speak(text, () -> app.musicPlayer.playRandom());
     }
 }

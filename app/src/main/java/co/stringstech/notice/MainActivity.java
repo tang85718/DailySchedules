@@ -34,24 +34,14 @@ public class MainActivity extends AppCompatActivity {
         initVolume();
 
         App app = (App) getApplication();
-        app.smartBot = new SmartBot(this);
+        app.broadcaster = new Broadcaster(this);
 
         SchedulesBuilder builder = new SchedulesBuilder(app);
         builder.executeNow();
 
-        app.schedule(23, 0, 0, builder, true);
+//        app.schedule(23, 0, 0, builder, true);
 
         app.builder.build();
-//        app.schedule(12, 31, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer, app.builder));
-//        app.schedule(12, 55, 0, new StopRelaxMusic(app.musicPlayer));
-//
-//        app.schedule(14, 5, 0, new WakeUpMusic(app));
-//        app.schedule(14, 5, 10, new WakeUpDeveloper(app.smartBot, app.musicPlayer));
-//        app.schedule(14, 30, 0, new DailyReport(app.smartBot, app.musicPlayer));
-//        app.schedule(14, 45, 0, new DailyReportTip(app.smartBot, app.musicPlayer));
-//
-//        app.schedule(18, 10, 0, new StartRelaxMusic(app.smartBot, app.musicPlayer, app.builder));
-//        app.schedule(19, 0, 0, new StopRelaxMusic(app.musicPlayer));
     }
 
     private void initVolume() {
@@ -72,22 +62,22 @@ public class MainActivity extends AppCompatActivity {
         App app = (App) getApplication();
         switch (v.getId()) {
             case R.id.button: {
-                WakeUpDeveloper s = new WakeUpDeveloper(app.smartBot, app.musicPlayer);
+                WakeUpDeveloper s = new WakeUpDeveloper(app);
                 s.executeNow();
                 break;
             }
             case R.id.button2: {
-                DailyReport dailyReport = new DailyReport(app.smartBot, app.musicPlayer);
+                DailyReport dailyReport = new DailyReport(app);
                 dailyReport.executeNow();
                 break;
             }
             case R.id.daily_report_tip: {
-                DailyReportTip dailyReport = new DailyReportTip(app.smartBot, app.musicPlayer);
+                DailyReportTip dailyReport = new DailyReportTip(app);
                 dailyReport.executeNow();
                 break;
             }
             case R.id.start_music: {
-                StartRelaxMusic s = new StartRelaxMusic(app.smartBot, app.musicPlayer, app.builder);
+                StartRelaxMusic s = new StartRelaxMusic(app);
                 s.executeNow();
                 break;
             }

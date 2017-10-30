@@ -3,10 +3,9 @@ package co.stringstech.notice.schedules;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Random;
 
+import co.stringstech.notice.App;
 import co.stringstech.notice.MusicPlayer;
-import co.stringstech.notice.SmartBot;
 
 /**
  * Created by tangxuyao on 2017/9/12.
@@ -15,12 +14,10 @@ import co.stringstech.notice.SmartBot;
 
 public class DailyReport extends BaseSchedule {
 
-    private SmartBot smartBot;
-    private MusicPlayer musicPlayer;
+    private App app;
 
-    public DailyReport(SmartBot smartBot, MusicPlayer musicPlayer) {
-        this.smartBot = smartBot;
-        this.musicPlayer = musicPlayer;
+    public DailyReport(App app) {
+        this.app = app;
     }
 
     @Override
@@ -52,9 +49,9 @@ public class DailyReport extends BaseSchedule {
 //        String admin = admins.get(dayOfYear % admins.size());
 
         String text = String.format(Locale.getDefault(),
-                "开始站会, 请%s第一个发言 喵～", developer);
+                "开始站会, 请%s第一个发言", developer);
 
-        musicPlayer.duck();
-        smartBot.speak(text, () -> musicPlayer.unduck());
+        app.musicPlayer.duck();
+        app.broadcaster.speak(text, () -> app.musicPlayer.unduck());
     }
 }

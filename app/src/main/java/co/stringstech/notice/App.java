@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import java.util.Calendar;
@@ -26,7 +28,7 @@ import timber.log.Timber;
 public class App extends Application {
 
     public MusicPlayer musicPlayer = new MusicPlayer(this);
-    public SmartBot smartBot;
+    public Broadcaster broadcaster;
     public HashMap<String, BaseSchedule> schedules = new HashMap<>();
     public PlaylistBuilder builder = new PlaylistBuilder(this);
     private Timer timer = new Timer();
@@ -34,6 +36,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=59e5a85a");
+
         Realm.init(this);
 
         ThreadUtil.bind();

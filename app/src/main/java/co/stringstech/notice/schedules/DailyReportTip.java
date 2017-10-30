@@ -1,7 +1,6 @@
 package co.stringstech.notice.schedules;
 
-import co.stringstech.notice.MusicPlayer;
-import co.stringstech.notice.SmartBot;
+import co.stringstech.notice.App;
 
 /**
  * Created by tangxuyao on 2017/9/12.
@@ -10,17 +9,16 @@ import co.stringstech.notice.SmartBot;
 
 public class DailyReportTip extends BaseSchedule {
 
-    private SmartBot smartBot;
-    private MusicPlayer musicPlayer;
+    private App app;
 
-    public DailyReportTip(SmartBot smartBot, MusicPlayer musicPlayer) {
-        this.smartBot = smartBot;
-        this.musicPlayer = musicPlayer;
+    public DailyReportTip(App app) {
+        this.app = app;
     }
 
     @Override
     public void executeNow() {
-        musicPlayer.duck();
-        smartBot.speak("久坐对颈椎不利，请大家停下忙碌，休息10分钟，离开座位，走动一会，换换思路，之后，请花5分钟时间认真编写今天的日志", () -> musicPlayer.unduck());
+        app.musicPlayer.duck();
+        app.broadcaster.speak("温馨提示：请花5分钟时间写日报，请花5分钟时间写日报，请花5分钟时间写日报，非常重要，喵喵",
+                () -> app.musicPlayer.unduck());
     }
 }

@@ -1,7 +1,6 @@
 package co.stringstech.notice;
 
 import android.os.Environment;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -38,25 +37,29 @@ public class PlaylistBuilder {
         Timber.i("SD:%s", path);
 
         File[] files = new File(path, "/KuwoMusic/music").listFiles();
-        for (File f : files) {
-            String absolutePath = f.getAbsolutePath();
-            realm.beginTransaction();
-            Pending pending = realm.createObject(Pending.class, absolutePath);
-            realm.copyToRealm(pending);
-            realm.commitTransaction();
+        if (files != null) {
+            for (File f : files) {
+                String absolutePath = f.getAbsolutePath();
+                realm.beginTransaction();
+                Pending pending = realm.createObject(Pending.class, absolutePath);
+                realm.copyToRealm(pending);
+                realm.commitTransaction();
 
-            Timber.d("KuWo: %s", absolutePath);
+                Timber.d("KuWo: %s", absolutePath);
+            }
         }
 
         files = new File(path, "/xiami/audios").listFiles();
-        for (File f : files) {
-            String absolutePath = f.getAbsolutePath();
+        if (files != null) {
+            for (File f : files) {
+                String absolutePath = f.getAbsolutePath();
 
-            realm.beginTransaction();
-            Pending pending = realm.createObject(Pending.class, absolutePath);
-            realm.copyToRealm(pending);
-            realm.commitTransaction();
-            Timber.d("XiaMi: %s", absolutePath);
+                realm.beginTransaction();
+                Pending pending = realm.createObject(Pending.class, absolutePath);
+                realm.copyToRealm(pending);
+                realm.commitTransaction();
+                Timber.d("XiaMi: %s", absolutePath);
+            }
         }
 
         realm.close();

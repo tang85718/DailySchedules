@@ -2,11 +2,8 @@ package co.stringstech.notice.schedules;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
-import co.stringstech.notice.SmartBot;
-import co.stringstech.notice.MusicPlayer;
-import co.stringstech.notice.ThreadUtil;
+import co.stringstech.notice.App;
 import timber.log.Timber;
 
 /**
@@ -15,17 +12,15 @@ import timber.log.Timber;
  */
 
 public class WakeUpDeveloper extends BaseSchedule {
-    private SmartBot smartBot;
-    private MusicPlayer musicPlayer;
+    private App app;
 
-    public WakeUpDeveloper(SmartBot smartBot, MusicPlayer musicPlayer) {
-        this.smartBot = smartBot;
-        this.musicPlayer = musicPlayer;
+    public WakeUpDeveloper(App app) {
+        this.app = app;
     }
 
     @Override
     public void executeNow() {
-        musicPlayer.duck();
+        app.musicPlayer.duck();
 //        String text = String.format(Locale.getDefault(),
 //                "大家好，请开发组准备2点半的站会, 记得站会时不要害羞.",
 //                smartBot.getName()
@@ -50,7 +45,7 @@ public class WakeUpDeveloper extends BaseSchedule {
         String text = seg.get(index);
 
         Timber.d("WakeUpDeveloper:%d, %d, %d, %s", days, index, seg.size(), text);
-        smartBot.speak("温馨 提示，请开发组准备2点半的站会.", () -> musicPlayer.unduck());
+        app.broadcaster.speak("温馨 提示，请开发组准备2点半的站会.", () -> app.musicPlayer.unduck());
 //        smartBot.speak(String.format(Locale.getDefault(), "休息好了, 清醒大脑开始工作哟～, 伟大的%s", text), () -> musicPlayer.unduck());
     }
 }
