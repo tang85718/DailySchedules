@@ -1,12 +1,16 @@
 package co.stringstech.notice;
 
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
@@ -25,23 +29,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Timber.plant(new Timber.DebugTree());
         Timber.d("onCreate");
         ButterKnife.bind(this);
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
         initVolume();
-
         App app = (App) getApplication();
         app.broadcaster = new Broadcaster(this);
 
-        SchedulesBuilder builder = new SchedulesBuilder(app);
-        builder.executeNow();
+        startService(new Intent(this, MyService.class));
 
-//        app.schedule(23, 0, 0, builder, true);
-
-        app.builder.build();
+        RxPermissions permissions = new RxPermissions(this);
+        permissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe();
     }
 
     private void initVolume() {

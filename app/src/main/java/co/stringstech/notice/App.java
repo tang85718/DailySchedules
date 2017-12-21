@@ -37,9 +37,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID + "=59e5a85a");
-
+        Timber.plant(new Timber.DebugTree());
         Realm.init(this);
-
         ThreadUtil.bind();
 
         Stetho.initialize(
@@ -65,7 +64,7 @@ public class App extends Application {
 
     }
 
-    public void schedule(int h, int m, int s, BaseSchedule schedule, boolean loop) {
+    public void schedule(int h, int m, int s, BaseSchedule schedule) {
         Calendar calendar = Calendar.getInstance(Locale.getDefault());
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, h);
@@ -80,22 +79,12 @@ public class App extends Application {
 
         Timber.i("create schedule: %d, %d, %s", h, m, name);
 
-        if (loop) {
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Timber.i("starting: %s", schedule.getClass().getSimpleName());
-                    schedule.execute();
-                }
-            }, calendar.getTime(), AlarmManager.INTERVAL_DAY);
-        } else {
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Timber.i("starting: %s", schedule.getClass().getSimpleName());
-                    schedule.execute();
-                }
-            }, calendar.getTime());
-        }
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Timber.i("starting: %s", schedule.getClass().getSimpleName());
+                schedule.execute();
+            }
+        }, calendar.getTime(), AlarmManager.INTERVAL_DAY);
     }
 }

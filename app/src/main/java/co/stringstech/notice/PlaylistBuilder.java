@@ -29,7 +29,7 @@ public class PlaylistBuilder {
         RealmQuery<Pending> query = realm.where(Pending.class);
         RealmResults<Pending> results = query.findAll();
         if (!results.isEmpty()) {
-            Timber.d("歌曲还没有播放完，不进行导入操作");
+            Timber.i("歌曲还没有播放完，不进行导入操作");
             return;
         }
 
@@ -45,7 +45,7 @@ public class PlaylistBuilder {
                 realm.copyToRealm(pending);
                 realm.commitTransaction();
 
-                Timber.d("KuWo: %s", absolutePath);
+                Timber.i("KuWo: %s", absolutePath);
             }
         }
 
@@ -58,7 +58,7 @@ public class PlaylistBuilder {
                 Pending pending = realm.createObject(Pending.class, absolutePath);
                 realm.copyToRealm(pending);
                 realm.commitTransaction();
-                Timber.d("XiaMi: %s", absolutePath);
+                Timber.i("XiaMi: %s", absolutePath);
             }
         }
 
