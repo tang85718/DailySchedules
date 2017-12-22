@@ -18,6 +18,11 @@ public class StartRelaxMusic extends BaseSchedule {
     }
 
     @Override
+    public String getName() {
+        return "PlayMusic";
+    }
+
+    @Override
     public void executeNow() {
         app.builder.build();
         String text = String.format(Locale.getDefault(),

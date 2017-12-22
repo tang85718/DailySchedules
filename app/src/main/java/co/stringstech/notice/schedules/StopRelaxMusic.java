@@ -16,6 +16,11 @@ public class StopRelaxMusic extends BaseSchedule {
     }
 
     @Override
+    public String getName() {
+        return "StopMusic";
+    }
+
+    @Override
     public void executeNow() {
         musicPlayer.stop();
         Timber.i("StopRelaxMusic");

@@ -15,6 +15,11 @@ public class WakeUpMusic extends BaseSchedule {
     }
 
     @Override
+    public String getName() {
+        return "WakeupMusic";
+    }
+
+    @Override
     public void executeNow() {
         app.musicPlayer.playOne();
     }

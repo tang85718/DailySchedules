@@ -19,6 +19,11 @@ public class WakeUpDeveloper extends BaseSchedule {
     }
 
     @Override
+    public String getName() {
+        return "WakeupDeveloper";
+    }
+
+    @Override
     public void executeNow() {
         app.musicPlayer.duck();
 //        String text = String.format(Locale.getDefault(),

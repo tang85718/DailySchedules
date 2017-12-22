@@ -16,6 +16,11 @@ public class DailyReportTip extends BaseSchedule {
     }
 
     @Override
+    public String getName() {
+        return "DailyReportTip";
+    }
+
+    @Override
     public void executeNow() {
         app.musicPlayer.duck();
         app.broadcaster.speak("温馨提示：请花5分钟时间写日报，请花5分钟时间写日报，请花5分钟时间写日报，非常重要，喵喵",

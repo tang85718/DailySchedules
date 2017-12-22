@@ -19,6 +19,12 @@ public class DailyReport extends BaseSchedule {
         this.app = app;
     }
 
+
+    @Override
+    public String getName() {
+        return "DailyReport";
+    }
+
     @Override
     public void executeNow() {
 

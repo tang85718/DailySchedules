@@ -16,6 +16,11 @@ public class SchedulesBuilder extends BaseSchedule {
     }
 
     @Override
+    public String getName() {
+        return "Builder";
+    }
+
+    @Override
     public void executeNow() {
         app.schedule(12, 31, 0, new StartRelaxMusic(app));
         app.schedule(13, 0, 0, new StopRelaxMusic(app.musicPlayer));
