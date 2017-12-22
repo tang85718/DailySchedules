@@ -7,7 +7,8 @@ import android.os.IBinder;
 import co.stringstech.notice.schedules.SchedulesBuilder;
 import timber.log.Timber;
 
-public class MyService extends Service {
+public class MyService extends Service implements Runnable {
+
     public MyService() {
     }
 
@@ -31,5 +32,9 @@ public class MyService extends Service {
 
         SchedulesBuilder builder = new SchedulesBuilder(app);
         builder.executeNow();
+    }
+
+    @Override
+    public void run() {
     }
 }

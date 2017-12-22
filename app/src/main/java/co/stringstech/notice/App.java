@@ -12,7 +12,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import co.stringstech.notice.schedules.BaseSchedule;
@@ -26,6 +25,10 @@ import timber.log.Timber;
  */
 
 public class App extends Application {
+
+    private final static long MIN = 1000 * 60;
+    private final static long HOUR = MIN * 60;
+    private final static long DAY = HOUR * 24;
 
     public MusicPlayer musicPlayer = new MusicPlayer(this);
     public Broadcaster broadcaster;
@@ -79,12 +82,6 @@ public class App extends Application {
 
         Timber.i("create schedule: %d, %d, %s", h, m, name);
 
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Timber.i("starting: %s", schedule.getClass().getSimpleName());
-                schedule.execute();
-            }
-        }, calendar.getTime(), AlarmManager.INTERVAL_DAY);
+        timer.schedule(schedule, calendar.getTime(), DAY);
     }
 }
