@@ -6,7 +6,7 @@ import timber.log.Timber;
 /**
  * Created by tangxuyao on 2017/9/12.
  * BaseSchedule
- * for test TFS
+ * fix some bugs
  */
 
 public abstract class BaseSchedule extends TimerTask {
