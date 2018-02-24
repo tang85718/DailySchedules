@@ -15,8 +15,8 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 import co.stringstech.notice.schedules.DailyReport;
-import co.stringstech.notice.schedules.DailyReportTip;
-import co.stringstech.notice.schedules.SchedulesBuilder;
+//import co.stringstech.notice.schedules.DailyReportTip;
+//import co.stringstech.notice.schedules.SchedulesBuilder;
 import co.stringstech.notice.schedules.StartRelaxMusic;
 import co.stringstech.notice.schedules.StopRelaxMusic;
 import co.stringstech.notice.schedules.WakeUpDeveloper;
@@ -70,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.daily_report_tip: {
-                DailyReportTip dailyReport = new DailyReportTip(app);
-                dailyReport.executeNow();
+//                DailyReportTip dailyReport = new DailyReportTip(app);
+//                dailyReport.executeNow();
                 break;
             }
             case R.id.start_music: {

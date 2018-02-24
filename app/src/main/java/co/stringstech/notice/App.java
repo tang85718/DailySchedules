@@ -1,6 +1,5 @@
 package co.stringstech.notice;
 
-import android.app.AlarmManager;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;

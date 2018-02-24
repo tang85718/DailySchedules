@@ -111,18 +111,22 @@ public class MusicPlayer implements MediaPlayer.OnCompletionListener {
             return;
         }
 
-        if (player.isPlaying()) {
-            player.stop();
-        }
+        try {
+            if (player.isPlaying()) {
+                player.stop();
+            }
 
-        player.release();
+            player.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
         if (isStopped) {
             stopForce();
-            return ;
+            return;
         }
 
         if (isLooping) {
