@@ -3,6 +3,7 @@ package co.stringstech.notice.schedules;
 import java.util.Locale;
 
 import co.stringstech.notice.App;
+import co.stringstech.notice.Broadcaster;
 
 
 /**
@@ -25,11 +26,14 @@ public class StartRelaxMusic extends BaseSchedule {
     @Override
     public void executeNow() {
         app.builder.build();
+
+        Broadcaster alice = new Broadcaster(app);
+
         String text = String.format(Locale.getDefault(),
-                "大家好，我是%s，大家工作辛苦了，现在是休息时间，播放几个小曲放松心情。喵～",
-                app.broadcaster.getName()
+                "大家工作辛苦了，%s来为大家放歌，嗨起来，喵～",
+                alice.getName()
         );
 
-        app.broadcaster.speak(text, () -> app.musicPlayer.playRandom());
+        alice.speak(text, () -> app.musicPlayer.playRandom());
     }
 }

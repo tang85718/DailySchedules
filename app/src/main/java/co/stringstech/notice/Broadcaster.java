@@ -2,14 +2,12 @@ package co.stringstech.notice;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechSynthesizer;
-import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.SynthesizerListener;
 
 import timber.log.Timber;
@@ -24,11 +22,13 @@ public class Broadcaster implements InitListener, SynthesizerListener {
     private final String name = "爱丽丝";
     private SpeechSynthesizer synthesizer;
 
-    public interface ISpeaking {
+    private long createTime = 0;
+
+    public interface OnCompleteListener {
         void onFinished();
     }
 
-    private ISpeaking speaking;
+    private OnCompleteListener onCompleteListener;
 
     /**
      * 发言人id
@@ -64,8 +64,7 @@ public class Broadcaster implements InitListener, SynthesizerListener {
      */
 
     public Broadcaster(Context context) {
-
-
+        createTime = System.currentTimeMillis();
         synthesizer = SpeechSynthesizer.createSynthesizer(context, this);
 
         synthesizer.setParameter(SpeechConstant.PARAMS, null);
@@ -86,17 +85,19 @@ public class Broadcaster implements InitListener, SynthesizerListener {
         // 设置播放合成音频打断音乐播放，默认为true
         synthesizer.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "true");
 
+
         // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
         // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
 //        synthesizer.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
 //        synthesizer.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/tts.wav");
     }
 
-    public void speak(String text, ISpeaking speaking) {
-        this.speaking = speaking;
-
-        ThreadUtil.run(() -> synthesizer.startSpeaking(text, Broadcaster.this));
+    public void speak(String text, OnCompleteListener listener) {
+        this.onCompleteListener = listener;
+        this.synthesizer.startSpeaking(text, Broadcaster.this);
     }
+
+
 
     public String getName() {
         return name;
@@ -104,10 +105,12 @@ public class Broadcaster implements InitListener, SynthesizerListener {
 
     @Override
     public void onInit(int i) {
+        long elapse = System.currentTimeMillis() - createTime;
+
         if (ErrorCode.SUCCESS == i) {
-            Timber.i("播音员：初始化成功");
+            Timber.i("%s：初始化成功, 耗时(%d)ms", name, elapse);
         } else {
-            Timber.e("播音员：初始化失败 - %d", i);
+            Timber.e("%s：初始化失败, 耗时(%d)ms - %d", name, elapse, i);
         }
 
     }
@@ -137,8 +140,8 @@ public class Broadcaster implements InitListener, SynthesizerListener {
         Timber.i("播音员：播音进度 %d-%d-%d", percent, beginPos, endPos);
         if (percent >= 98) {
             ThreadUtil.runDelay(500, () -> {
-                if (speaking != null) {
-                    speaking.onFinished();
+                if (onCompleteListener != null) {
+                    onCompleteListener.onFinished();
                 }
             });
         }

@@ -15,12 +15,9 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 import co.stringstech.notice.schedules.DailyReport;
-//import co.stringstech.notice.schedules.DailyReportTip;
-//import co.stringstech.notice.schedules.SchedulesBuilder;
 import co.stringstech.notice.schedules.StartRelaxMusic;
 import co.stringstech.notice.schedules.StopRelaxMusic;
 import co.stringstech.notice.schedules.WakeUpDeveloper;
-import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,12 +26,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Timber.d("onCreate");
         ButterKnife.bind(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         initVolume();
-        App app = (App) getApplication();
-        app.broadcaster = new Broadcaster(this);
 
         startService(new Intent(this, MyService.class));
 
@@ -44,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void initVolume() {
         AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int max = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        manager.setStreamVolume(AudioManager.STREAM_MUSIC, max, AudioManager.FLAG_PLAY_SOUND);
+        if (manager != null) {
+            int max = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            manager.setStreamVolume(AudioManager.STREAM_MUSIC, max, AudioManager.FLAG_PLAY_SOUND);
+        }
     }
 
 //    @OnClick(R.id.enter_webview)

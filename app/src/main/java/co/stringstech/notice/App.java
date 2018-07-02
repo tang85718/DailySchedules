@@ -30,7 +30,6 @@ public class App extends Application {
     private final static long DAY = HOUR * 24;
 
     public MusicPlayer musicPlayer = new MusicPlayer(this);
-    public Broadcaster broadcaster;
     public HashMap<String, BaseSchedule> schedules = new HashMap<>();
     public PlaylistBuilder builder = new PlaylistBuilder(this);
     private Timer timer = new Timer();

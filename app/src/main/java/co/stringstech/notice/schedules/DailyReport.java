@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import co.stringstech.notice.App;
+import co.stringstech.notice.Broadcaster;
 
 /**
  * Created by tangxuyao on 2017/9/12.
@@ -27,12 +28,6 @@ public class DailyReport extends BaseSchedule {
 
     @Override
     public void executeNow() {
-
-        ArrayList<String> admins = new ArrayList<>();
-        admins.add("邓京辉");
-        admins.add("彭智耿");
-        admins.add("杨裕安");
-
         ArrayList<String> developers = new ArrayList<>();
         developers.add("姚春林");
         developers.add("彭智耿");
@@ -41,7 +36,6 @@ public class DailyReport extends BaseSchedule {
         developers.add("黄磊");
         developers.add("柳成望");
         developers.add("邓京辉");
-        developers.add("李佳洋");
         developers.add("陈峻炫");
 
         Calendar calendar = Calendar.getInstance();
@@ -52,7 +46,9 @@ public class DailyReport extends BaseSchedule {
         String text = String.format(Locale.getDefault(),
                 "开始站会, 请%s第一个发言", developer);
 
+        Broadcaster alice = new Broadcaster(app);
+
         app.musicPlayer.duck();
-        app.broadcaster.speak(text, () -> app.musicPlayer.unduck());
+        alice.speak(text, () -> app.musicPlayer.unduck());
     }
 }
